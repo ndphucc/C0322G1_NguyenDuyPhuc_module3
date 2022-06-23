@@ -1,0 +1,29 @@
+.header {
+    padding: 5px 10px;
+    display: flex;
+}
+
+.find {
+    border-radius: 15px;
+    border: solid 1px black;
+    width: 250px;
+    margin-left: 10px;
+    padding: 10px;
+    position: relative;
+}
+
+.menu ul {
+    display: flex;
+    padding: 0;
+    margin: 0 50px;
+}
+
+.menu ul li {
+    list-style: none;
+    padding: 0px 50px;
+}
+
+.menu input {
+    position: relative;
+}
+

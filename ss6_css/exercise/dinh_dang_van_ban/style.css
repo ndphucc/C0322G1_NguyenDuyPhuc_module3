@@ -1,0 +1,30 @@
+*{
+    font-size: 18px;
+}
+a {
+    text-decoration: none;
+}
+.bold {
+    font-weight: bold;
+}
+.aqua>a{
+    color: aqua;
+}
+sup {
+    color: blue;
+    font-size: small;
+}
+#black {
+    color: black;
+}
+h1 {
+    margin-bottom: 0;
+}
+#title{
+    margin-top: 0;
+    text-indent: 0;
+}
+p {
+    text-indent: 50px;
+    margin-bottom: 5px;
+}

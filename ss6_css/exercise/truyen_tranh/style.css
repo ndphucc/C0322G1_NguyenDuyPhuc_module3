@@ -1,0 +1,33 @@
+#container-left {
+    width: 30%;
+
+}
+
+#container-right {
+    position: absolute;
+    width: 65%;
+    right: 0;
+    top: 0;
+    border-left: solid 1px black;
+    padding-left: 10px;
+}
+
+.truyen {
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+}
+
+#container {
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+
