@@ -31,11 +31,16 @@ public class ProductServlet extends HttpServlet {
             case "edit":
                 displayFormEdit(request, response);
                 break;
+            case "delete":
+                displayDelete(request, response);
+                break;
+            case "view":
+                view(request,response);
+                break;
             default:
                 displayList(request, response);
         }
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,8 +55,28 @@ public class ProductServlet extends HttpServlet {
             case "edit":
                 editProduct(request, response);
                 break;
-
+            case "delete":
+                delete(request, response);
+                break;
         }
+    }
+    private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        Product product = productService.getProduct(id);
+        request.setAttribute("product",product);
+        request.getRequestDispatcher("product/view.jsp").forward(request,response);
+    }
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        productService.remove(id);
+        displayList(request, response);
+    }
+
+    private void displayDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Product product = productService.getProduct(id);
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("product/delete.jsp").forward(request, response);
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -102,6 +127,5 @@ public class ProductServlet extends HttpServlet {
         Product product = productService.getProduct(id);
         request.setAttribute("product", product);
         request.getRequestDispatcher("product/edit.jsp").forward(request, response);
-
     }
 }

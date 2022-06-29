@@ -38,7 +38,7 @@
         <c:forEach items="${list}" var="product">
             <tr>
                 <td>${product.id}</td>
-                <td>${product.name}</td>
+                <td><a href="/servlet?action=view&id=${product.id}">${product.name}</a></td>
                 <td>${product.price}</td>
                 <td>${product.productDescription}</td>
                 <td>${product.producer}</td>
