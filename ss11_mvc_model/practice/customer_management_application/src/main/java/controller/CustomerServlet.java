@@ -60,17 +60,10 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    private void listCustomers(HttpServletRequest request, HttpServletResponse response) {
+    private void listCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Customer> customers = this.customerService.findAll();
         request.setAttribute("customers", customers);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customer/list.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        request.getRequestDispatcher("customer/list.jsp").forward(request,response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {

@@ -33,7 +33,7 @@
                 <td>${requestScope["customer"].getAddress()}</td>
             </tr>
             <tr>
-                <td><input type="submit" value="Delete customer"></td>
+                <td><input type="submit" value="Delete customer" ></td>
                 <td><a href="/customers">Back to customer list</a></td>
             </tr>
         </table>
