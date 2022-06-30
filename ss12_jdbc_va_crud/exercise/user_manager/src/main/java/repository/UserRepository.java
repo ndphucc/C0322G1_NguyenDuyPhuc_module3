@@ -9,7 +9,7 @@ public interface UserRepository {
 
     List<User> findName(String str);
 
-    void edit(int id);
+    void edit(int id,String name,String email,String address);
 
     void add(String name, String email,String address);
 
@@ -17,5 +17,5 @@ public interface UserRepository {
 
     User getUser(int id);
 
-    void sortByName();
+    List<User> sortByName();
 }

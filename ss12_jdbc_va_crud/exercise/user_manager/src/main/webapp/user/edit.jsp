@@ -12,11 +12,11 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/user?action=edit%id=${user.id}" method="post">
+<form action="/user?action=edit&id=${user.id}" method="post">
     <table>
         <tr>
             <td>id</td>
-            <td>${user.id}</td>
+            <td>${user.getId()}</td>
         </tr>
         <tr>
             <td>Name</td>

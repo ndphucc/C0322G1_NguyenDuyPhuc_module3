@@ -51,19 +51,77 @@ public class UserServlet extends HttpServlet {
             case "create":
                 create(request, response);
                 break;
+            case "edit":
+                edit(request, response);
+                break;
+            case "delete":
+                delete(request, response);
+                break;
+
+        }
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        service.remove(id);
+        try {
+            response.sendRedirect("/user");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        service.edit(id, name, email, address);
+        try {
+            response.sendRedirect("/user");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void sort(HttpServletRequest request, HttpServletResponse response) {
+        List list = null;
+        list = service.sortByName();
+        request.setAttribute("userList", list);
+        try {
+            request.getRequestDispatcher("user/main.jsp").forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void displayDelete(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = service.getUser(id);
+        request.setAttribute("user", user);
+        try {
+            request.getRequestDispatcher("user/delete.jsp").forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayEdit(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        User user =
-        request.setAttribute("user");
+        User user = service.getUser(id);
+        request.setAttribute("user", user);
+        try {
+            request.getRequestDispatcher("user/edit.jsp").forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void create(HttpServletRequest request, HttpServletResponse response) {
@@ -87,7 +145,6 @@ public class UserServlet extends HttpServlet {
     }
 
     private void displayList(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("abc");
         List<User> userList = service.findAll();
         request.setAttribute("userList", userList);
         try {

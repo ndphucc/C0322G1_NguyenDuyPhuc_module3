@@ -12,6 +12,30 @@
     <title>Title</title>
 </head>
 <body>
+<form action="/user?action=delete&id=${user.id}" method="post">
+    <table>
+        <tr>
+            <td>id</td>
+            <td>${user.getId()}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>${user.name}</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td>${user.email}</td>
+        </tr>
+        <tr>
+            <td>address</td>
+            <td>${user.address}</td>
+        </tr>
+        <tr>
+            <td><button>submit</button></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
 
 </body>
 </html>

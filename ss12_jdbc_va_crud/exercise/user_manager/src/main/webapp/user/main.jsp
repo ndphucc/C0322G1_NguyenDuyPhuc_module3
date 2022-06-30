@@ -14,7 +14,12 @@
 </head>
 <table class="table">
     <tr>
-        <a href="/user?action=create">Thêm</a>
+        <td colspan="3">
+            <a href="/user?action=create">Thêm</a>
+        </td>
+        <td colspan="3">
+            <a href="/user?action=sort">Sắp xếp</a>
+        </td>
     </tr>
     <tr>
         <th>Id</th>
@@ -29,7 +34,7 @@
             <td>${user.id}</td>
             <td>${user.name}</td>
             <td>${user.email}</td>
-            <td>${user.country}</td>
+            <td>${user.address}</td>
             <td><a href="/user?action=edit&id=${user.id}">edit</a></td>
             <td><a href="/user?action=delete&id=${user.id}">delete</a></td>
         </tr>

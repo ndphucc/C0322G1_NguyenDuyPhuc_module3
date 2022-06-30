@@ -9,11 +9,11 @@ public class User {
     public User() {
     }
 
-    public User(int id, String name, String email, String country) {
+    public User(int id, String name, String email, String address) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.address = country;
+        this.address = address;
     }
 
     public int getId() {
@@ -40,12 +40,12 @@ public class User {
         this.email = email;
     }
 
-    public String getCountry() {
+    public String getAddress() {
         return address;
     }
 
-    public void setCountry(String country) {
-        this.address = country;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
 }

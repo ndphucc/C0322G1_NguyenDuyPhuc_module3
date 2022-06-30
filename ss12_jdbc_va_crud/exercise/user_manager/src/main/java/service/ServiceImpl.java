@@ -20,8 +20,8 @@ public class ServiceImpl implements Service{
     }
 
     @Override
-    public void edit(int id) {
-
+    public void edit(int id, String name, String email, String address) {
+        userRepository.edit(id,name,email,address);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ServiceImpl implements Service{
 
     @Override
     public void remove(int id) {
-
+        userRepository.remove(id);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ServiceImpl implements Service{
     }
 
     @Override
-    public void sortByName() {
-
+    public List<User> sortByName() {
+        return userRepository.sortByName();
     }
 }

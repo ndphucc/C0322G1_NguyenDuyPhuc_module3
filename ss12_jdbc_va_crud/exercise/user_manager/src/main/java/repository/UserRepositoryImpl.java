@@ -11,9 +11,9 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
     private final String FIND_ALL = " select * from user ";
-    private final String FIND_BY_NAME = "select * from `user` where name like %?%";
-    private final String ADD = " insert into user (name, email, address) VALUE ( ?, ?, ?) ";
-    private final String UPDATE = "update user set id=?,name=?,email=?,address=? where id=?";
+    private final String FIND_BY_NAME = " select * from `user` where name like %?%";
+    private final String ADD = " insert into `user` (name, email, address) VALUE ( ?, ?, ?) ";
+    private final String UPDATE = " update `user` set `name` = ?,email = ?,address = ? where id=? ";
     private final String REMOVE = "delete from user where id=?";
     private final String FIND_BY_ID = "select * from user where id=?";
     private final String SORT_BY_NAME = "select * from user order by name";
@@ -63,8 +63,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void edit(int id) {
-
+    public void edit(int id, String name, String email, String address) {
+        Connection connection = new BaseRepository().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,email);
+            preparedStatement.setString(3,address);
+            preparedStatement.setInt(4,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -84,7 +94,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void remove(int id) {
-
+        Connection connection = new BaseRepository().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -98,7 +115,23 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void sortByName() {
+    public List<User> sortByName() {
+        list.clear();
+        Connection connection = new BaseRepository().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SORT_BY_NAME);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String country = resultSet.getString("address");
+                list.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
 
     }
 }
