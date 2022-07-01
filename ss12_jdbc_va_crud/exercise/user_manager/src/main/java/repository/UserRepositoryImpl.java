@@ -2,19 +2,15 @@ package repository;
 
 import model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
-import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-    private final String FIND_ALL = " select * from user ";
+    private final String FIND_ALL = " call sp_display()";
     private final String FIND_BY_NAME = " select * from `user` where name like %?%";
     private final String ADD = " insert into `user` (name, email, address) VALUE ( ?, ?, ?) ";
-    private final String UPDATE = " update `user` set `name` = ?,email = ?,address = ? where id=? ";
-    private final String REMOVE = "delete from user where id=?";
+    private final String UPDATE = " call edit(?,?,?,?)";
+    private final String REMOVE = "call `delete`(?)";
     private final String FIND_BY_ID = "select * from user where id=?";
     private final String SORT_BY_NAME = "select * from user order by name";
     private List<User> list = new LinkedList<>();
@@ -24,8 +20,8 @@ public class UserRepositoryImpl implements UserRepository {
         list.clear();
         Connection connection = new BaseRepository().getConnection();
         try {
-            PreparedStatement preparedStatement;
-            preparedStatement = connection.prepareStatement(FIND_ALL);
+            CallableStatement preparedStatement;
+            preparedStatement = connection.prepareCall(FIND_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -66,11 +62,11 @@ public class UserRepositoryImpl implements UserRepository {
     public void edit(int id, String name, String email, String address) {
         Connection connection = new BaseRepository().getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
-            preparedStatement.setString(1,name);
-            preparedStatement.setString(2,email);
-            preparedStatement.setString(3,address);
-            preparedStatement.setInt(4,id);
+            CallableStatement preparedStatement = connection.prepareCall(UPDATE);
+            preparedStatement.setInt(1,id);
+            preparedStatement.setString(2,name);
+            preparedStatement.setString(3,email);
+            preparedStatement.setString(4,address);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,13 +75,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void add(String name, String email, String address) {
+        String msg = "ok, transaction successfully";
         Connection connection = new BaseRepository().getConnection();
         try {
+            connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(ADD);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, address);
             preparedStatement.executeUpdate();
+            connection.commit();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,7 +97,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void remove(int id) {
         Connection connection = new BaseRepository().getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE);
+            CallableStatement preparedStatement = connection.prepareCall(REMOVE);
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
